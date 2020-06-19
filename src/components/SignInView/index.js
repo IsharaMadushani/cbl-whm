@@ -65,16 +65,18 @@ export default function SignInView (props) {
 
 
   const _verifyUser = () => {
-    const userID = firebase.auth().currentUser.uid;
-    firebase.database().ref('users/mobileAppUsers/supervisors').child(userID).once('value', (snapshot) => {
-      if(snapshot.exists()) {
-        setSuccess(true);
-        setTimeout(() => props.history.push('./admin'), 1000);
-      } else {
-        firebase.auth().signOut()
-          .then(() => { setError(true); setLoading(false) });
-      }
-    });
+    setSuccess(true);
+    setTimeout(() => props.history.push('./dashboard'), 1000);
+    // const userID = firebase.auth().currentUser.uid;
+    // firebase.database().ref('users/mobileAppUsers/supervisors').child(userID).once('value', (snapshot) => {
+    //   if(snapshot.exists()) {
+    //     setSuccess(true);
+    //     setTimeout(() => props.history.push('./admin'), 1000);
+    //   } else {
+    //     firebase.auth().signOut()
+    //       .then(() => { setError(true); setLoading(false) });
+    //   }
+    // });
   }
 
 
