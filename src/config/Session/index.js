@@ -1,6 +1,9 @@
 import AuthUserProvider from './provider';
 import { AuthUserContext } from './provider';
+import withAuthorization from './withAuthorization';
  
 export default AuthUserProvider;
 
-export { AuthUserContext };
+export { AuthUserContext, withAuthorization };
+
+ 

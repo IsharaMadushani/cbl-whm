@@ -15,7 +15,7 @@ export const RoutesSwitcher = (
           />
         );
       })}
-      <Redirect from="/" to="/admin" />
+      <Redirect from="/" to="/signin" />
     </Switch>
 );
 

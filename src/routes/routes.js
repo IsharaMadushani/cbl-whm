@@ -1,7 +1,5 @@
 import Dashboard from "@material-ui/icons/Dashboard";
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import DashboardView from "../components/DashboardView";
-import SignInView from "../components/SignInView";
 
 
 const routes = [
@@ -11,17 +9,8 @@ const routes = [
     name: "Dashboard",
     component: DashboardView,
     layout: "/admin",
-    authReuired: false
-  },
-  {
-    path: "/signin",
-    icon: ExitToAppIcon,
-    name: "SignIn",
-    component: SignInView,
-    layout: "/admin",
-    authReuired: false
+    authReuired: true
   }
 ];
-
 
 export default routes;

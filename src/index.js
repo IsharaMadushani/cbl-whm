@@ -9,6 +9,7 @@ import 'typeface-roboto';
 import './layouts';
 import Theme from './assets/theme';
 import { DashboardLayout } from './layouts';
+import SignInView from "./components/SignInView";
 
 const browserHistory = createBrowserHistory();
 
@@ -19,7 +20,8 @@ ReactDOM.render(
         <Switch>
           <Theme>
             <Route path="/admin" component={DashboardLayout} />
-            <Redirect from="/" to="/admin/dashboard" />
+            <Route path="/signin" component={SignInView} />
+            <Redirect from="/" to="/signin" />
           </Theme>
         </Switch>
       </Router>

@@ -12,8 +12,6 @@ import companyLogo from "../../../images/company-logo.png";
 
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import firebase from 'firebase';
-import SignInView from "../../../components/SignInView";
-
 
 export default function Sidebar(props) {
   const useStyles = makeStyles(styles);

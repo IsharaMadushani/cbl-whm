@@ -1,10 +1,17 @@
 import React, { useContext } from "react";
-import { AuthUserContext } from "../../config/Session";
+import { AuthUserContext, withAuthorization } from "../../config/Session";
 
-export default function DashboardView() {
+const DashboardView = () => {
   const authUser = useContext(AuthUserContext); 
   const {photoURL, displayName, email} = authUser || {};
   return (
-    <div>{email || "No logged in user"}</div>
+    <div>
+      <h1>Home Page</h1>
+      <div>{email || "No logged in user"}</div>
+    </div>    
   ) 
 };
+ 
+const condition = authUser => !!authUser;
+ 
+export default withAuthorization(condition)(DashboardView);
