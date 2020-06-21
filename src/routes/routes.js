@@ -10,15 +10,17 @@ const routes = [
     icon: Dashboard,
     name: "Dashboard",
     component: DashboardView,
-    layout: "/admin"
+    layout: "/admin",
+    authReuired: false
   },
   {
     path: "/signin",
     icon: ExitToAppIcon,
     name: "SignIn",
     component: SignInView,
-    layout: "/admin"
-  },
+    layout: "/admin",
+    authReuired: false
+  }
 ];
 
 
