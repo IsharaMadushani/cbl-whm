@@ -19,8 +19,9 @@ ReactDOM.render(
       <Router history={browserHistory}>
         <Switch>
           <Theme>
-            <Route path="/admin" component={DashboardLayout} />
             <Route path="/signin" component={SignInView} />
+            <Route path="/departmentHead" component={DashboardLayout} />
+            <Route path="/managementStaff" component={DashboardLayout} />
             <Redirect from="/" to="/signin" />
           </Theme>
         </Switch>

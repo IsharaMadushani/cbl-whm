@@ -65,20 +65,29 @@ export default function SignInView (props) {
 
 
   const _verifyUser = () => {
-    setSuccess(true);
-    setTimeout(() => props.history.push('./admin/dashboard'), 1000);
-    // const userID = firebase.auth().currentUser.uid;
-    // firebase.database().ref('users/mobileAppUsers/supervisors').child(userID).once('value', (snapshot) => {
-    //   if(snapshot.exists()) {
-    //     setSuccess(true);
-    //     setTimeout(() => props.history.push('./admin'), 1000);
-    //   } else {
-    //     firebase.auth().signOut()
-    //       .then(() => { setError(true); setLoading(false) });
-    //   }
-    // });
+    const userID = firebase.auth().currentUser.uid;
+    
+    firebase.database().ref('users/managementStaff').child(userID).once('value', (snapshot) => {
+      if(snapshot.exists()) {
+        setSuccess(true);
+        setTimeout(() => props.history.push('./managementStaff/dashboard'), 1000);
+      }
+      else {
+        firebase.database().ref('users/departmentHead').child(userID).once('value', (snapshot) => {
+          if(snapshot.exists()) {
+            setSuccess(true);
+            setTimeout(() => props.history.push('./departmentHead/dashboard'), 1000);
+          }
+          else {
+            firebase.auth().signOut()
+              .then(() => { setError(true); setLoading(false) });
+          }
+        })        
+      }
+    });
   }
 
+  
 
   return (
     <SideImageFormLayout
