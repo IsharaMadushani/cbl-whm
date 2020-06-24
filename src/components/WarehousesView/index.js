@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { AuthUserContext, withAuthorization } from "../../config/Session";
+import UserRoles from "../../constants/roles";
 
 const WarehousesView = () => {
   const authUser = useContext(AuthUserContext); 
@@ -13,6 +14,6 @@ const WarehousesView = () => {
   ) 
 };
  
-const condition = authUser => !!authUser;
+const condition = authUserRole => authUserRole &&  authUserRole === UserRoles.DepartmentHead;
  
 export default withAuthorization(condition)(WarehousesView);

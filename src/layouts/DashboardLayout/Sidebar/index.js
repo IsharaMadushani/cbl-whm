@@ -4,27 +4,38 @@ import classNames from "classnames";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
 import { makeStyles, Drawer, Hidden, List, ListItem, ListItemText } from "@material-ui/core";
-
 import styles from "./style";
 import routes from '../../../routes';
 import sidebarBackgroundImage from '../../../images/sidebar-background.jpg';
 import companyLogo from "../../../images/company-logo.png";
-
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import firebase from 'firebase';
+import UserRoles from "../../../constants/roles";
 
 export default function Sidebar(props) {
   const useStyles = makeStyles(styles);
   const classes = useStyles();
 
-  const authUser = useContext(AuthUserContext);
+  const authUserState = useContext(AuthUserContext).state;
 
   function activeRoute(routeName) {
     return window.location.href.indexOf(routeName) > -1 ? true : false;
   }
 
   function getValidRoutes() {
-    return authUser ? routes.filter(r => r.authReuired) : routes.filter(r => !r.authReuired);
+    //authentication based filteration
+    let validRoutes = authUserState.authUser ? routes.filter(r => r.authReuired) : routes.filter(r => !r.authReuired);
+
+    //role based filteration
+    switch(authUserState.authUserRole) {
+      case UserRoles.DepartmentHead:
+        validRoutes = validRoutes.filter(r => r.authorizedUserRole === UserRoles.DepartmentHead || r.authorizedUserRole === UserRoles.Any);
+        break;
+      case UserRoles.ManagementStaff:
+        validRoutes = validRoutes.filter(r => r.authorizedUserRole === UserRoles.ManagementStaff || r.authorizedUserRole === UserRoles.Any);
+        break;
+    }
+    return validRoutes; 
   }
 
   function signOut() {
@@ -96,7 +107,7 @@ export default function Sidebar(props) {
         >
           {brand}
           <div className={classes.sidebarWrapper}>{links}</div>
-          <div className={classes.sidebarWrapper}>{authLinks}</div>
+          <div className={classes.controlButtonWrapper}>{authLinks}</div>
           <div
             className={classes.background}
             style={{ backgroundImage: "url(" + sidebarBackgroundImage + ")" }}
@@ -113,7 +124,7 @@ export default function Sidebar(props) {
         >
           {brand}
           <div className={classes.sidebarWrapper}>{links}</div>
-          <div className={classes.sidebarWrapper}>{authLinks}</div>
+          <div className={classes.controlButtonWrapper}>{authLinks}</div>
           <div
             className={classes.background}
             style={{ backgroundImage: "url(" + sidebarBackgroundImage + ")" }}

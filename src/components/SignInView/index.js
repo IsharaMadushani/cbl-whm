@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Avatar, TextField, FormControlLabel, Checkbox, Typography, CircularProgress, Zoom, Fade } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import CheckIcon from '@material-ui/icons/Check';
 import firebase from 'firebase';
-
 import styles from './style';
 import SideImageFormLayout from '../../layouts/SideImageFormLayout';
 import PasswordInputField from '../shared/PasswordInputField'
@@ -12,9 +11,11 @@ import Button from '../shared/Button';
 import TransitionAlert from '../shared/TransitionAlert';
 import Footer from '../shared/Footer';
 import EmailValidator from '../../utils/EmailValidator';
-
+import { AuthUserContext } from "../../config/Session";
+import UserRoles from "../../constants/roles.js";
 
 export default function SignInView (props) {
+  const authUser = useContext(AuthUserContext);
   const useStyles = makeStyles(styles);
   const classes = useStyles();
 
@@ -65,17 +66,18 @@ export default function SignInView (props) {
 
 
   const _verifyUser = () => {
-    const userID = firebase.auth().currentUser.uid;
-    
-    firebase.database().ref('users/managementStaff').child(userID).once('value', (snapshot) => {
+    const userId = firebase.auth().currentUser.uid;    
+    firebase.database().ref('users/managementStaff').child(userId).once('value', (snapshot) => {
       if(snapshot.exists()) {
         setSuccess(true);
+        authUser.updateUserRole(UserRoles.ManagementStaff);
         setTimeout(() => props.history.push('./managementStaff/dashboard'), 1000);
       }
       else {
-        firebase.database().ref('users/departmentHead').child(userID).once('value', (snapshot) => {
+        firebase.database().ref('users/departmentHead').child(userId).once('value', (snapshot) => {
           if(snapshot.exists()) {
             setSuccess(true);
+            authUser.updateUserRole(UserRoles.DepartmentHead);
             setTimeout(() => props.history.push('./departmentHead/dashboard'), 1000);
           }
           else {

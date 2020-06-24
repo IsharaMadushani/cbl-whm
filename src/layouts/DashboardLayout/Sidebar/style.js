@@ -180,6 +180,14 @@ const sidebarStyle = theme => ({
     zIndex: "4",
     overflowScrolling: "touch"
   },
+  controlButtonWrapper: {
+    position: "relative",
+    height: "100px",
+    overflow: "hidden",
+    width: "260px",
+    zIndex: "4",
+    marginBottom: "20px"
+  },
 });
 
 

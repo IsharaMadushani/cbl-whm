@@ -8,6 +8,7 @@ class AuthUserProvider extends Component {
 
         this.state = {
             authUser: null,
+            authUserRole: null
         };
     }
 
@@ -25,9 +26,13 @@ class AuthUserProvider extends Component {
         this.listener();
     }
 
+    updateUserRole = (role) => {
+        this.setState({ authUserRole: role });
+     }
+
     render() {
         return (
-            <AuthUserContext.Provider value={this.state.authUser}>
+            <AuthUserContext.Provider value={{state: this.state, updateUserRole: this.updateUserRole}}>
                 {this.props.children}
             </AuthUserContext.Provider>
         );

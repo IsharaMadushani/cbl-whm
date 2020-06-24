@@ -1,13 +1,15 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import firebase from 'firebase';
+import { AuthUserContext } from "../../config/Session";
  
 const withAuthorization = condition => Component => {
   class WithAuthorization extends React.Component {
     componentDidMount() {
+      let authContextState = this.context.state;
       this.listener = firebase.auth().onAuthStateChanged(
         authUser => {
-          if (!condition(authUser)) {
+          if (!(authUser && condition(authContextState.authUserRole))) {
             this.props.history.push("./signin");
           }
         },
@@ -24,7 +26,8 @@ const withAuthorization = condition => Component => {
       );
     }
   }
- 
+
+  WithAuthorization.contextType = AuthUserContext;
   return withRouter(WithAuthorization);
 };
  
