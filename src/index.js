@@ -10,24 +10,30 @@ import './layouts';
 import Theme from './assets/theme';
 import { DashboardLayout } from './layouts';
 import SignInView from "./components/SignInView";
+import { Provider } from "react-redux";
+import reduxThunk from "redux-thunk";
+import rootReducer from "./store/reducers/rootReducer";
+import { createStore, applyMiddleware, compose } from "redux";
 
 const browserHistory = createBrowserHistory();
+const store = createStore(rootReducer, {}, applyMiddleware(reduxThunk));
 
 ReactDOM.render(
-  <FirebaseProvider>
     <AuthUserProvider>
-      <Router history={browserHistory}>
-        <Switch>
-          <Theme>
-            <Route path="/signin" component={SignInView} />
-            <Route path="/departmentHead" component={DashboardLayout} />
-            <Route path="/managementStaff" component={DashboardLayout} />
-            <Redirect from="/" to="/signin" />
-          </Theme>
-        </Switch>
-      </Router>
-    </AuthUserProvider>
-  </FirebaseProvider>,
+      <Provider store={store}>
+        <Router history={browserHistory}>
+          <Switch>
+            <Theme>
+              <Route path="/signin" component={SignInView} />
+              <Route path="/departmentHead" component={DashboardLayout} />
+              <Route path="/managementStaff" component={DashboardLayout} />
+              <Route path="/transferNotes" component={DashboardLayout} />
+              <Redirect from="/" to="/signin" />
+            </Theme>
+          </Switch>
+        </Router>
+      </Provider>
+    </AuthUserProvider>,
   document.getElementById('root'),
 );
 

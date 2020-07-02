@@ -3,6 +3,7 @@ import LocalConvenienceStoreIcon from '@material-ui/icons/LocalConvenienceStore'
 import UserRoles from "../constants/roles.js";
 import DepartmentHeadDashboardView from "../components/DepartmentHeadDashboardView";
 import ManagementStaffDashboardView from "../components/ManagementStaffDashboardView";
+import TransferNotesView from "../components/TransferNotesView";
 import WarehousesView from "../components/WarehousesView";
 
 
@@ -24,6 +25,15 @@ const routes = [
     component: ManagementStaffDashboardView,
     authReuired: true,
     authorizedUserRole: UserRoles.ManagementStaff
+  },
+  {
+    icon: Dashboard,
+    name: "TransferNotes",
+    layout: "/transferNotes",
+    path: "/transfernotes",
+    component: TransferNotesView,
+    authReuired: true,
+    authorizedUserRole: UserRoles.Any
   },
   {
     icon: LocalConvenienceStoreIcon,
