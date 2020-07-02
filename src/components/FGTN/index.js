@@ -20,89 +20,52 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
-class FGTNView extends Component {
+class FGTNView extends Component { 
     state = {
-      search: "",
+        type: TransferNotesType.ActiveFGTN,
     };
-  
     componentWillMount() {
       this.props.fetchTransferNotes(TransferNotesType.ActiveFGTN);
     }
     
     render() {
-      // const { classes } = this.props;
-
-      // if (this.props.transferNotes) {
-      //   const alltransferNotes = this.props.transferNotes;
-
-      //   var data = [];
-      //   for (let [key, alltransferNote] of Object.entries(alltransferNotes)) {
-      //     //get data from each staff member to display in the table
-      //     var data = [];
-      //     data.push(key);
-      //     data.push(alltransferNote.productionLine.name);
-      //     data.push(alltransferNote.batchNumber);
-      //     data.push(alltransferNote.preparedAt);
-      //     data.push(
-      //       <Link to={"./staff/" + key}>
-      //         <Button color="info" round>
-      //           View
-      //         </Button>
-      //       </Link>
-      //     );
-
-      //     //push array of individual staff member's data into the staff data array
-      //     data.push(data);
-      //   }
-
-        //search
-        // if(this.state.search){
-        //   managementStaffData = managementStaffData.filter(item => item[0].toLowerCase().includes(this.state.search.toLowerCase()) || item[1].toLowerCase().includes(this.state.search.toLowerCase()) || item[2].toLowerCase().includes(this.state.search.toLowerCase()))
-        // }
-      // }
-
-      //create table of staff data using table component
-      // const details = this.props.transferNotes ? (
-      //   <div>
-      //     <Table
-      //       tableHeaderColor="info"
-      //       tableHead={["Transfer Note ID", "Prduction Line ID", "Batch No.", "Date", "View"]}
-      //       tableData={data}
-      //     />
-      //   </div>
-      // ) : (
-      //   <div>
-      //     <p>No Transfer Notes.</p>
-      //   </div>
-      // );   
-      const useRowStyles = makeStyles({
+      const useStyles = makeStyles((theme) => ({
         root: {
           '& > *': {
             borderBottom: 'unset',
           },
         },
-      });
-      
-      const createData = (name, calories, fat, carbs, protein, price) => {
-        return {
-          name,
-          calories,
-          fat,
-          carbs,
-          protein,
-          price,
-          history: [
-            { date: '2020-01-05', customerId: '11091700', amount: 3 },
-            { date: '2020-01-02', customerId: 'Anonymous', amount: 1 },
-          ],
-        };
-      }
-      
+
+        title: {
+          flex: '1 1 100%',
+          fontSize: 14
+        },
+
+        body: {
+          fontWeight: "normal",
+          fontSize: 13
+        },
+
+        formControl: {
+          margin: theme.spacing(1),
+          minWidth: 120,
+        },
+
+        selectEmpty: {
+          marginTop: theme.spacing(2),
+        },
+      }));      
+       
       const Row = (props) => {
         const { row } = props;
         const [open, setOpen] = React.useState(false);
-        const classes = useRowStyles();
+        const classes = useStyles();
       
         return (
           <React.Fragment>
@@ -113,40 +76,54 @@ class FGTNView extends Component {
                 </IconButton>
               </TableCell>
               <TableCell component="th" scope="row">
-                {row.name}
+                {row.noteId}
               </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+              <TableCell>{row.productionLine}</TableCell>
+              <TableCell>{row.batchNo}</TableCell>
+              <TableCell>{row.date}</TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
                 <Collapse in={open} timeout="auto" unmountOnExit>
                   <Box margin={1}>
                     <Typography variant="h6" gutterBottom component="div">
-                      History
+                      Details
+                    </Typography>
+
+                    <Typography variant="h6" component="div">
+                      <span className={classes.title}>Status - </span> <span className={classes.body}>{row.details.status}</span>
+                    </Typography>
+                    <Typography variant="h6" component="div">
+                      <span className={classes.title}>Prepared by - </span> <span className={classes.body}>{row.details.preparedBy}</span>
+                    </Typography>                   
+
+                    {row.details.approvedBy ? (
+                      <Typography className={classes.title} variant="h6" component="div">
+                        <span className={classes.title}>Approved by - </span> <span className={classes.body}>{row.details.approvedBy}</span>
+                      </Typography>
+                    ) : (
+                      <Typography className={classes.title} variant="h6" component="div"></Typography>
+                    )}
+
+                    <Typography className={classes.title} variant="h6" component="div">
+                      Transfer Products
                     </Typography>
                     <Table size="small" aria-label="purchases">
                       <TableHead>
                         <TableRow>
-                          <TableCell>Date</TableCell>
-                          <TableCell>Customer</TableCell>
-                          <TableCell align="right">Amount</TableCell>
-                          <TableCell align="right">Total price ($)</TableCell>
+                          <TableCell>Product Code</TableCell>
+                          <TableCell>Description</TableCell>
+                          <TableCell>Quantity</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {row.history.map((historyRow) => (
-                          <TableRow key={historyRow.date}>
+                        {row.details.transferProductsList.map((product) => (
+                          <TableRow key={product.productCode}>
                             <TableCell component="th" scope="row">
-                              {historyRow.date}
+                              {product.productCode}
                             </TableCell>
-                            <TableCell>{historyRow.customerId}</TableCell>
-                            <TableCell align="right">{historyRow.amount}</TableCell>
-                            <TableCell align="right">
-                              {Math.round(historyRow.amount * row.price * 100) / 100}
-                            </TableCell>
+                            <TableCell>{product.description}</TableCell>
+                            <TableCell>{product.quantity}</TableCell>
                           </TableRow>
                         ))}
                       </TableBody>
@@ -157,32 +134,86 @@ class FGTNView extends Component {
             </TableRow>
           </React.Fragment>
         );
-      }
+      };
 
-      const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-        createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-        createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-        createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-      ];
+      const handleChange = (event) => {
+        this.setState({ type: event.target.value });
+        this.props.fetchTransferNotes(event.target.value);
+      };
+
+      const TypeSelect = (props) => {
+        const classes = useStyles();
+
+        return (
+          <React.Fragment>
+            <FormControl className={classes.formControl}>
+              <InputLabel shrink id="demo-simple-select-placeholder-label-label">
+                Transfer Note Type
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-placeholder-label-label"
+                id="demo-simple-select-placeholder-label"
+                value={this.state.type}
+                onChange={handleChange}
+                displayEmpty
+                className={classes.selectEmpty}
+              >
+                <MenuItem value={TransferNotesType.ActiveFGTN}>Active</MenuItem>
+                <MenuItem value={TransferNotesType.CompletedFGTN}>Completed</MenuItem>
+              </Select>
+              <FormHelperText>Select a transfer note type here</FormHelperText>
+            </FormControl>
+          </React.Fragment>
+        );
+      };
+
+      const getNoteDetails = (alltransferNote) => {
+        const preparedDetails = JSON.parse(alltransferNote.preparedBy);
+        const approvedDetails = alltransferNote.approvedBy ? JSON.parse(alltransferNote.preparedBy) : null;
+        const transferProductsList = alltransferNote.transferProductsList ? JSON.parse(alltransferNote.transferProductsList) : null;
+
+        return {
+          status: alltransferNote.status,
+          preparedBy: preparedDetails.name,
+          approvedBy: approvedDetails ? (approvedDetails.name) : null,
+          transferProductsList: transferProductsList
+        };
+      };
+
+      //generating rows
+      var rows = [];
+      if (this.props.transferNotes) {
+        const alltransferNotes = this.props.transferNotes;
+
+        for (let [key, alltransferNote] of Object.entries(alltransferNotes)) {
+          const productionLine = JSON.parse(alltransferNote.productionLine);
+          var rowData = {
+            noteId: key,
+            productionLine: productionLine.id + '-' + productionLine.name,
+            batchNo: alltransferNote.batchNumber,
+            date: alltransferNote.preparedAt,
+            details: getNoteDetails(alltransferNote)
+          };
+          rows.push(rowData); 
+        }
+      }      
   
       return (
         <TableContainer component={Paper}>
-          <Table aria-label="collapsible table">
+          <TypeSelect />
+          <Table stickyHeader aria-label="collapsible table">
             <TableHead>
               <TableRow>
                 <TableCell />
-                <TableCell>Dessert (100g serving)</TableCell>
-                <TableCell align="right">Calories</TableCell>
-                <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                <TableCell>Transfer Note ID</TableCell>
+                <TableCell>Prduction Line ID</TableCell>
+                <TableCell>Batch No.</TableCell>
+                <TableCell>Date</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {rows.map((row) => (
-                <Row key={row.name} row={row} />
+                <Row key={row.noteId} row={row} />
               ))}
             </TableBody>
           </Table>
@@ -191,7 +222,7 @@ class FGTNView extends Component {
     }
   }
 
-const mapStateToProps = state => {
+  const mapStateToProps = state => {
     return {
       transferNotes: state.transferNote.transferNotes
     };
