@@ -22,6 +22,10 @@ const transferNotes = databaseRef.child("transferNotes");
 
 export const fetchTransferNotes = (type) => {
     return (dispatch, getState) => {
+        dispatch({ 
+            type: "FETCH_TRANSFER_NOTES",
+            data: null
+        });
         switch (type) {
             case TransferNotesType.CompletedFGTN:
                 fetchCompletedFgtn(dispatch);
@@ -72,7 +76,6 @@ export const fetchTransferNotes = (type) => {
                 }); 
             }
         }
-        console.log(items);
         dispatch({ 
             type: "FETCH_TRANSFER_NOTES",
             data: items
@@ -111,7 +114,6 @@ export const fetchTransferNotes = (type) => {
                 });
             }
         }
-        console.log(items);
         dispatch({ 
             type: "FETCH_TRANSFER_NOTES",
             data: items

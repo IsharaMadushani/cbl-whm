@@ -25,6 +25,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import _ from 'lodash';
 
 class FGTNView extends Component { 
     state = {
@@ -136,7 +137,7 @@ class FGTNView extends Component {
         );
       };
 
-      const handleChange = (event) => {
+      const handleChange = (event) => { 
         this.setState({ type: event.target.value });
         this.props.fetchTransferNotes(event.target.value);
       };
@@ -182,15 +183,20 @@ class FGTNView extends Component {
 
       //generating rows
       var rows = [];
-      if (this.props.transferNotes) {
+      console.log(this.props.transferNotes);
+      console.log(_.isEmpty(this.props.transferNotes));
+      if (this.props.transferNotes && !_.isEmpty(this.props.transferNotes)) {
         const alltransferNotes = this.props.transferNotes;
 
         for (let [key, alltransferNote] of Object.entries(alltransferNotes)) {
-          const productionLine = JSON.parse(alltransferNote.productionLine);
+          var productionLine = {};
+          if (alltransferNote.productionLine) {
+            productionLine = JSON.parse(alltransferNote.productionLine);
+          }
           var rowData = {
             noteId: key,
-            productionLine: productionLine.id + '-' + productionLine.name,
-            batchNo: alltransferNote.batchNumber,
+            productionLine: !_.isEmpty(productionLine)? (productionLine.id + '-' + productionLine.name) : '-',
+            batchNo: alltransferNote.batchNumber || '-',
             date: alltransferNote.preparedAt,
             details: getNoteDetails(alltransferNote)
           };

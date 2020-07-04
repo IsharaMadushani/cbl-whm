@@ -1,5 +1,6 @@
 import Dashboard from "@material-ui/icons/Dashboard";
 import LocalConvenienceStoreIcon from '@material-ui/icons/LocalConvenienceStore';
+import TransformIcon from '@material-ui/icons/Transform';
 import UserRoles from "../constants/roles.js";
 import DepartmentHeadDashboardView from "../components/DepartmentHeadDashboardView";
 import ManagementStaffDashboardView from "../components/ManagementStaffDashboardView";
@@ -27,7 +28,7 @@ const routes = [
     authorizedUserRole: UserRoles.ManagementStaff
   },
   {
-    icon: Dashboard,
+    icon: TransformIcon,
     name: "TransferNotes",
     layout: "/transferNotes",
     path: "/transfernotes",
