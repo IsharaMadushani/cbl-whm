@@ -3,7 +3,7 @@ import { Avatar, TextField, FormControlLabel, Checkbox, Typography, CircularProg
 import { makeStyles } from '@material-ui/core/styles';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import CheckIcon from '@material-ui/icons/Check';
-import firebase from 'firebase';
+import firebase from '../../config/Firebase';
 import styles from './style';
 import SideImageFormLayout from '../../layouts/SideImageFormLayout';
 import PasswordInputField from '../shared/PasswordInputField'

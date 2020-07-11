@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
-import FirebaseProvider from './config/Firebase';
 import AuthUserProvider from './config/Session';
 import * as serviceWorker from './assets/serviceWorker';
 import 'typeface-roboto';
@@ -13,7 +12,7 @@ import SignInView from "./components/SignInView";
 import { Provider } from "react-redux";
 import reduxThunk from "redux-thunk";
 import rootReducer from "./store/reducers/rootReducer";
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware } from "redux";
 
 const browserHistory = createBrowserHistory();
 const store = createStore(rootReducer, {}, applyMiddleware(reduxThunk));

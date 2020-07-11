@@ -1,24 +1,5 @@
 import TransferNotesType from "../../constants/transferNotesType";
-import * as firebase from "firebase";
-
-const config = {
-    apiKey: "AIzaSyDi1conn7rx1gHOSD4hRZno4OuaA_rQHOQ",
-    authDomain: "cbl-storex-wms.firebaseapp.com",
-    databaseURL: "https://cbl-storex-wms.firebaseio.com",
-    projectId: "cbl-storex-wms",
-    storageBucket: "cbl-storex-wms.appspot.com",
-    messagingSenderId: "989085924632",
-    appId: "1:989085924632:web:028064f18f0d4919fa326d",
-    measurementId: "G-MDJ2DBMFD8"
-
-};
-firebase.initializeApp(config);
-
-
-const databaseRef = firebase.database().ref();
-const fgtnTransferNoteRef = databaseRef.child("transferNotesRefs").child('fgtn');
-const itnTransferNoteRef = databaseRef.child("transferNotesRefs").child('wwtn');
-const transferNotes = databaseRef.child("transferNotes");
+import firebase, {fgtnTransferNoteRef, itnTransferNoteRef, transferNotes} from '../../config/Firebase';
 
 export const fetchTransferNotes = (type) => {
     return (dispatch, getState) => {
