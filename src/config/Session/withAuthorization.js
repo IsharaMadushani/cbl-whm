@@ -1,6 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import firebase from 'firebase';
+import firebase from '../Firebase';
 import { AuthUserContext } from "../../config/Session";
  
 const withAuthorization = condition => Component => {

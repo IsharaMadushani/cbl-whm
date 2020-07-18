@@ -1,3 +1,5 @@
-import FirebaseProvider from './provider';
+// import FirebaseProvider from './provider';
+import firebase, {fgtnTransferNoteRef, itnTransferNoteRef, transferNotes} from './firebase'
  
-export default FirebaseProvider;
+export {fgtnTransferNoteRef, itnTransferNoteRef, transferNotes};
+export default firebase;

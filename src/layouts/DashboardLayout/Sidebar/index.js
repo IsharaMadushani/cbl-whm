@@ -9,7 +9,7 @@ import routes from '../../../routes';
 import sidebarBackgroundImage from '../../../images/sidebar-background.jpg';
 import companyLogo from "../../../images/company-logo.png";
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import firebase from 'firebase';
+import firebase from '../../../config/Firebase';
 import UserRoles from "../../../constants/roles";
 
 export default function Sidebar(props) {

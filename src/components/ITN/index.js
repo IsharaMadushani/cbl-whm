@@ -1,11 +1,9 @@
 import React, { Component } from "react";
-import { AuthUserContext, withAuthorization } from "../../config/Session";
+import { withAuthorization } from "../../config/Session";
 import UserRoles from "../../constants/roles";
 import TransferNotesType from "../../constants/transferNotesType";
 import { connect } from "react-redux";
 import { fetchTransferNotes } from "../../store/actions/transferNoteActions";
-import { Link } from "react-router-dom";
-import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Collapse from '@material-ui/core/Collapse';
@@ -26,6 +24,7 @@ import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import _ from 'lodash';
+import { auto } from "async";
 
 class ITNView extends Component { 
     state = {
@@ -61,6 +60,11 @@ class ITNView extends Component {
         selectEmpty: {
           marginTop: theme.spacing(2),
         },
+
+        cotainer: {
+          overflow: auto,
+          height: '80vh',
+        }
       }));      
        
       const Row = (props) => {
@@ -168,6 +172,31 @@ class ITNView extends Component {
         );
       };
 
+      const TableContent = (props) => {
+        const classes = useStyles();
+        return (
+          <TableContainer className={classes.cotainer} component={Paper}>
+            <TypeSelect />
+            <Table stickyHeader aria-label="collapsible table">
+              <TableHead>
+                <TableRow>
+                  <TableCell />
+                  <TableCell>Transfer Note ID</TableCell>
+                  <TableCell>Prduction Line ID</TableCell>
+                  <TableCell>Batch No.</TableCell>
+                  <TableCell>Date</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map((row) => (
+                  <Row key={row.noteId} row={row} />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        );
+      }
+
       const getNoteDetails = (alltransferNote) => {
         const preparedDetails = JSON.parse(alltransferNote.preparedBy);
         const approvedDetails = alltransferNote.approvedBy ? JSON.parse(alltransferNote.preparedBy) : null;
@@ -205,25 +234,7 @@ class ITNView extends Component {
       }      
   
       return (
-        <TableContainer component={Paper}>
-          <TypeSelect />
-          <Table stickyHeader aria-label="collapsible table">
-            <TableHead>
-              <TableRow>
-                <TableCell />
-                <TableCell>Transfer Note ID</TableCell>
-                <TableCell>Prduction Line ID</TableCell>
-                <TableCell>Batch No.</TableCell>
-                <TableCell>Date</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map((row) => (
-                <Row key={row.noteId} row={row} />
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <TableContent />        
       );
     }
   }
@@ -243,12 +254,5 @@ class ITNView extends Component {
     };
   };
  
-const condition = authUserRole => authUserRole &&  authUserRole === UserRoles.DepartmentHead;
- 
-// export default connect(
-//     mapStateToProps,
-//     mapDispatchToProps,
-//     withAuthorization(condition)
-//   )(FGTNView);
-
-export default connect(mapStateToProps,mapDispatchToProps)(ITNView);
+const condition = authUserRole => authUserRole && (authUserRole === UserRoles.DepartmentHead || authUserRole === UserRoles.ManagementStaff);
+export default withAuthorization(condition)(connect(mapStateToProps,mapDispatchToProps)(ITNView));

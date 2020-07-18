@@ -1,4 +1,4 @@
-import app from 'firebase/app';
+import * as firebase from "firebase";
 import 'firebase/auth';
 
 const config = {
@@ -13,11 +13,11 @@ const config = {
 
 };
 
-class Firebase {
-    constructor() {
-        app.initializeApp(config);
-        this.auth = app.auth();
-    }
-}
+firebase.initializeApp(config);
 
-export default Firebase;
+const databaseRef = firebase.database().ref();
+export const fgtnTransferNoteRef = databaseRef.child("transferNotesRefs").child('fgtn');
+export const itnTransferNoteRef = databaseRef.child("transferNotesRefs").child('wwtn');
+export const transferNotes = databaseRef.child("transferNotes");
+
+export default firebase;

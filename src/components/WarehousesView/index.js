@@ -4,7 +4,7 @@ import UserRoles from "../../constants/roles";
 
 const WarehousesView = () => {
   const authUser = useContext(AuthUserContext); 
-  const {photoURL, displayName, email} = authUser || {};
+  const { email } = authUser || {};
   
   return (
     <div>

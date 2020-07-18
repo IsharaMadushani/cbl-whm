@@ -5,7 +5,8 @@ import UserRoles from "../constants/roles.js";
 import DepartmentHeadDashboardView from "../components/DepartmentHeadDashboardView";
 import ManagementStaffDashboardView from "../components/ManagementStaffDashboardView";
 import TransferNotesView from "../components/TransferNotesView";
-import WarehousesView from "../components/WarehousesView";
+import Warehouses from "../layouts/WarehouseLayout/Warehouse";
+import Users from '../layouts/UsersLayout/Users'
 
 
 const routes = [
@@ -41,10 +42,20 @@ const routes = [
     name: "Warehouses",
     layout: "/departmentHead",
     path: "/warehouses",
-    component: WarehousesView,
+    component: Warehouses,
     authReuired: true,
     authorizedUserRole: UserRoles.DepartmentHead
+  },
+  {
+    icon: TransformIcon,
+    name: "User Managements",
+    layout: "/departmentHead",
+    path: "/users",
+    component: Users,
+    authReuired: true,
+    authorizedUserRole: UserRoles.Any
   }
+
 
 ];
 
