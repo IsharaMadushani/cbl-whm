@@ -71,14 +71,14 @@ export default function SignInView (props) {
       if(snapshot.exists()) {
         setSuccess(true);
         authUser.updateUserRole(UserRoles.ManagementStaff);
-        setTimeout(() => props.history.push('./managementStaff/dashboard'), 1000);
+        setTimeout(() => props.history.push('./dashboard/dashboard'), 1000);
       }
       else {
         firebase.database().ref('users/departmentHead').child(userId).once('value', (snapshot) => {
           if(snapshot.exists()) {
             setSuccess(true);
             authUser.updateUserRole(UserRoles.DepartmentHead);
-            setTimeout(() => props.history.push('./departmentHead/dashboard'), 1000);
+            setTimeout(() => props.history.push('./dashboard/dashboard'), 1000);
           }
           else {
             firebase.auth().signOut()

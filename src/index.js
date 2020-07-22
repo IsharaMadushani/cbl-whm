@@ -30,6 +30,7 @@ ReactDOM.render(
             <Route path="/departmentHead" component={DashboardLayout} />
             <Route path="/managementStaff" component={DashboardLayout} />
             <Route path="/transferNotes" component={DashboardLayout} />
+            <Route path="/dashboard" component={DashboardLayout} />
             <Route path="/users" component={Users} />
             <Route path="/warehouses" component={Warehouses} />
             <Redirect from="/" to="/signin" />

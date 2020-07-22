@@ -13,20 +13,11 @@ const routes = [
   {
     icon: Dashboard,
     name: "Dashboard",
-    layout: "/departmentHead",
+    layout: "/dashboard",
     path: "/dashboard",
     component: DepartmentHeadDashboardView,
     authReuired: true,
-    authorizedUserRole: UserRoles.DepartmentHead
-  },
-  {
-    icon: Dashboard,
-    name: "Dashboard",
-    layout: "/managementStaff",
-    path: "/dashboard",
-    component: ManagementStaffDashboardView,
-    authReuired: true,
-    authorizedUserRole: UserRoles.ManagementStaff
+    authorizedUserRole: UserRoles.Any
   },
   {
     icon: TransformIcon,
