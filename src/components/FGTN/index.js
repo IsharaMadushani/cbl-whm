@@ -25,8 +25,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import _ from 'lodash';
 import { auto } from "async";
-import { blue } from "@material-ui/core/colors";
-import Button from '@material-ui/core/Button';
+import LocalPrintshopTwoToneIcon from '@material-ui/icons/LocalPrintshopTwoTone';
+import { PDFDownloadLink, Document, Page, View, Text } from '@react-pdf/renderer'
 
 class FGTNView extends Component { 
     state = {
@@ -67,8 +67,24 @@ class FGTNView extends Component {
           overflow: auto,
           height: '80vh',
         }
-      }));      
-       
+      }));
+
+      const MyDoc = (props) => {
+        const { row } = props;
+
+        return (
+          <Document>
+            <Page>
+              <View>
+                  <Text>
+                    {row.noteId}
+                  </Text>
+              </View>
+            </Page>
+          </Document>
+        );        
+      }
+      
       const Row = (props) => {
         const { row } = props;
         const [open, setOpen] = React.useState(false);
@@ -88,6 +104,13 @@ class FGTNView extends Component {
               <TableCell>{row.productionLine}</TableCell>
               <TableCell>{row.batchNo}</TableCell>
               <TableCell>{row.date}</TableCell>
+              <TableCell>
+                <div>
+                  <PDFDownloadLink document={<MyDoc row={row} />} fileName={'TransferNote_' + row.noteId + '.pdf'}>
+                    {({ blob, url, loading, error }) => (loading ? 'Loading document...' : <IconButton aria-label="expand row" size="small"><LocalPrintshopTwoToneIcon /></IconButton> )}
+                  </PDFDownloadLink>
+                </div>
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -136,7 +159,6 @@ class FGTNView extends Component {
                       </TableBody>
                     </Table>
                   </Box>
-                  <Button variant="primary">Download the Report</Button>{' '}
                   </Collapse>
               </TableCell>
             </TableRow>

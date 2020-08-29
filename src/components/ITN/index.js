@@ -26,7 +26,7 @@ import Select from '@material-ui/core/Select';
 import _ from 'lodash';
 import { auto } from "async";
 import Button from '@material-ui/core/Button';
-
+import LocalPrintshopTwoToneIcon from '@material-ui/icons/LocalPrintshopTwoTone';
 
 class ITNView extends Component { 
     state = {
@@ -73,6 +73,10 @@ class ITNView extends Component {
         const { row } = props;
         const [open, setOpen] = React.useState(false);
         const classes = useStyles();
+
+        const print = (event) => { 
+          alert("printing");
+        };
       
         return (
           <React.Fragment>
@@ -88,6 +92,11 @@ class ITNView extends Component {
               <TableCell>{row.productionLine}</TableCell>
               <TableCell>{row.batchNo}</TableCell>
               <TableCell>{row.date}</TableCell>
+              <TableCell>
+                <IconButton aria-label="expand row" size="small" onClick={print(row)}>
+                  <LocalPrintshopTwoToneIcon />
+                </IconButton>
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
