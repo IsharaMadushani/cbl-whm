@@ -25,6 +25,8 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import _ from 'lodash';
 import { auto } from "async";
+import Button from '@material-ui/core/Button';
+
 
 class ITNView extends Component { 
     state = {
@@ -134,6 +136,7 @@ class ITNView extends Component {
                       </TableBody>
                     </Table>
                   </Box>
+                  <Button variant="primary">Download the Report</Button>{' '}
                 </Collapse>
               </TableCell>
             </TableRow>

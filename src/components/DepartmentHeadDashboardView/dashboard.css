@@ -1,0 +1,14 @@
+h2{
+    background-color: DodgerBlue;
+    color: white;
+    padding: 16px;
+    font-family: Arial;
+    text-align: center;
+  }
+  h6 {
+    color: rgb(5, 34, 68);
+    padding: 4px;
+    font-family: Arial;
+    text-align: left;
+    width: 250px;
+  }

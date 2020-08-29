@@ -26,6 +26,7 @@ import Select from '@material-ui/core/Select';
 import _ from 'lodash';
 import { auto } from "async";
 import { blue } from "@material-ui/core/colors";
+import Button from '@material-ui/core/Button';
 
 class FGTNView extends Component { 
     state = {
@@ -45,7 +46,7 @@ class FGTNView extends Component {
 
         title: {
           flex: '1 1 100%',
-          fontSize: 14
+          fontSize: 14,
         },
 
         body: {
@@ -135,7 +136,8 @@ class FGTNView extends Component {
                       </TableBody>
                     </Table>
                   </Box>
-                </Collapse>
+                  <Button variant="primary">Download the Report</Button>{' '}
+                  </Collapse>
               </TableCell>
             </TableRow>
           </React.Fragment>

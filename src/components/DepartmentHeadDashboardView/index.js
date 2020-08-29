@@ -12,6 +12,8 @@ import { deepOrange, deepPurple } from '@material-ui/core/colors';
 import AssignmentTurnedInTwoToneIcon from '@material-ui/icons/AssignmentTurnedInTwoTone';
 import ReceiptTwoToneIcon from '@material-ui/icons/ReceiptTwoTone';
 import Chip from '@material-ui/core/Chip';
+import './dashboard.css';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,9 +83,9 @@ const DepartmentHeadDashboardView = () => {
   
   return (
     <div>
-      <h1>Dashboard</h1>
-      <Typography variant="h5" gutterBottom>
-        Finished Goods
+      <h2>Dashboard</h2>
+      <Typography variant="h6" gutterBottom>
+        Finished Goods Transfers
       </Typography>
       <div className={classes.root}>
         <Grid container spacing={3}>
@@ -91,15 +93,15 @@ const DepartmentHeadDashboardView = () => {
             <Grid item xs={3}>
               <Paper className={classes.paper}>
                 <Avatar className={classes.orange}><AssignmentTurnedInTwoToneIcon /></Avatar>
-                {"For production line " + item.productionLine} <Chip label={item.count + " items"} variant="outlined" />
+                {"For production line " + item.productionLine} <Chip label={item.count + " transfers"} variant="outlined" />
               </Paper>
             </Grid>
           ))} 
         </Grid>
       </div>
       <Divider variant="middle" /><br />
-      <Typography variant="h5" gutterBottom>
-        Transfer Goods
+      <Typography variant="h6" gutterBottom>
+        Inventory Transfers
       </Typography>
       <div className={classes.root}>
         <Grid container spacing={3}>
@@ -107,7 +109,7 @@ const DepartmentHeadDashboardView = () => {
             <Grid item xs={3}>
               <Paper className={classes.paper}>
                 <Avatar className={classes.purple}><ReceiptTwoToneIcon /></Avatar>
-                {"For production line " + item.productionLine} <Chip label={item.count + " items"} variant="outlined" />
+                {"For Warehouse     " + item.productionLine} <Chip label={item.count + " transfers"} variant="outlined" />
               </Paper>
             </Grid>
           ))} 
