@@ -25,8 +25,10 @@ import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import _ from 'lodash';
 import { auto } from "async";
-import Button from '@material-ui/core/Button';
 import LocalPrintshopTwoToneIcon from '@material-ui/icons/LocalPrintshopTwoTone';
+import { PDFDownloadLink, Document, Page, View, Text, StyleSheet } from '@react-pdf/renderer'
+import { Table as ReportTable, TableCell as ReportTableCell, TableHeader, DataTableCell, TableBody as ReportTableBody} from '@david.kucsai/react-pdf-table'
+
 
 class ITNView extends Component { 
     state = {
@@ -67,16 +69,57 @@ class ITNView extends Component {
           overflow: auto,
           height: '80vh',
         }
-      }));      
+      }));
+      
+      const reportStyles = StyleSheet.create({
+        page: { margin: 30, flexDirection: 'column' }
+      });
+
+      const Report = (props) => {
+        const { row } = props;
+
+        return (
+          <Document>
+            <Page size="A4" style={reportStyles.page}>
+              <View>
+                <Text style={{ fontSize: 12, padding: 5, fontWeight: 'bold' }}>Transfer Note ID: {row.noteId}</Text>
+                <Text style={{ fontSize: 10, padding: 5 }}></Text> 
+
+                <Text style={{ fontSize: 10, padding: 5 }}>Production Line ID: {row.productionLine}</Text>
+                <Text style={{ fontSize: 10, padding: 5 }}>Batch No.: {row.batchNo}</Text>
+                <Text style={{ fontSize: 10, padding: 5 }}>Date: {row.date}</Text>
+                <Text style={{ fontSize: 10, padding: 5 }}></Text>  
+
+                <Text style={{ fontSize: 10, padding: 5 }}>Status: {row.details.status}</Text>
+                <Text style={{ fontSize: 10, padding: 5 }}>Prepared by: {row.details.preparedBy}</Text>
+                <Text style={{ fontSize: 10, padding: 5 }}>Approved by: {row.details.approvedBy || '-'}</Text>
+                <Text style={{ fontSize: 10, padding: 5 }}></Text> 
+              </View>
+
+              <View style={{ padding: 5, maxWidth: 500}}>
+                <Text style={{ fontSize: 12, padding: 5 }}>Transfer Products</Text>
+                <ReportTable data={row.details.transferProductsList}>
+                      <TableHeader>
+                          <ReportTableCell isHeader={true} style={{ padding: 5, fontSize: 10}}>Product Code</ReportTableCell>
+                          <ReportTableCell isHeader={true} style={{ padding: 5, fontSize: 10 }}>Description</ReportTableCell>
+                          <ReportTableCell isHeader={true} style={{ padding: 5, fontSize: 10 }}>Quantity</ReportTableCell>
+                      </TableHeader>
+                      <ReportTableBody>
+                          <DataTableCell getContent={(r) => r.productCode} style={{ padding: 5, fontSize: 10}}/>
+                          <DataTableCell getContent={(r) => r.description} style={{ padding: 5, fontSize: 10}}/>
+                          <DataTableCell getContent={(r) => r.quantity} style={{ padding: 5, fontSize: 10 }}/>
+                      </ReportTableBody>
+                </ReportTable>
+              </View>            
+            </Page>
+        </Document>
+        );        
+      }
        
       const Row = (props) => {
         const { row } = props;
         const [open, setOpen] = React.useState(false);
-        const classes = useStyles();
-
-        const print = (event) => { 
-          alert("printing");
-        };
+        const classes = useStyles();        
       
         return (
           <React.Fragment>
@@ -93,9 +136,11 @@ class ITNView extends Component {
               <TableCell>{row.batchNo}</TableCell>
               <TableCell>{row.date}</TableCell>
               <TableCell>
-                <IconButton aria-label="expand row" size="small" onClick={print(row)}>
-                  <LocalPrintshopTwoToneIcon />
-                </IconButton>
+                <div>
+                    <PDFDownloadLink document={<Report row={row} />} fileName={'TransferNote_' + row.noteId + '.pdf'}>
+                      {({ blob, url, loading, error }) => (loading ? 'Loading document...' : <IconButton aria-label="expand row" size="small"><LocalPrintshopTwoToneIcon /></IconButton> )}
+                    </PDFDownloadLink>
+                </div>
               </TableCell>
             </TableRow>
             <TableRow>
@@ -145,7 +190,6 @@ class ITNView extends Component {
                       </TableBody>
                     </Table>
                   </Box>
-                  <Button variant="primary">Download the Report</Button>{' '}
                 </Collapse>
               </TableCell>
             </TableRow>
